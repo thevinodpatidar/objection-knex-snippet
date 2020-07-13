@@ -1,0 +1,252 @@
+{
+	"Objection Model" : {
+		"scope": "javascript",
+		"prefix": ["model","objection-model"],
+		"body": [
+			
+"const { Model } = require('objection');\n",
+
+"class ${User} extends Model {",
+    "\t// Table name is the only required property.\n",
+    "\tstatic get tableName() {",
+        "\t\treturn 'user';",
+    "\t}",
+    "\tstatic get jsonSchema() {",
+        "\t\treturn {",
+            "\t\t\ttype: 'object',",
+            "\t\t\tproperties: {",
+                "\t\t\t\t// Properties defined as objects or arrays are",
+                "\t\t\t\t// automatically converted to JSON strings when",
+                "\t\t\t\t// writing to database and back to objects and arrays",
+                "\t\t\t\t// when reading from database. To override this",
+                "\t\t\t\t// behaviour, you can override the",
+                "\t\t\t\t// Model.jsonAttributes property.",
+                "\t\t\taddress: {",
+                    "\t\t\ttype: 'object',",
+                    "\t\t\tproperties: {",
+                        "\t\t\t\tstreet: { type: 'string' },",
+                        "\t\t\t\tcity: { type: 'string' },",
+                        "\t\t\t\tstate: { type: 'string' },",
+                        "\t\t\t\tpinCode: { type: 'string' }",
+                    "\t\t\t}",
+                "\t\t}",
+            "\t}",
+        "\t}",
+    "\t\n}",
+    "static get relationMappings() {",
+        "\t\treturn {\n",
+            
+        "\t\t}",
+    "\t}",
+"\t\n}",
+"module.exports = ${User};",
+		]
+	},
+
+	"Knex Create Table": {
+		"scope": "javascript",
+		"prefix": ["knex-create-table","create-table"],
+		"body": [
+			"await knex.schema.createTable('${1:user}',function(table){",
+			"\ttable.increments('${2:id}').primary();",
+			"\ttable.string('${3:name}').notNullable();",
+			"\ttable.string('${4:email}').notNullable().unique();",
+			"\ttable.timestamp('created_at').defaultTo(knex.fn.now());",
+			"\ttable.timestamp('updated_at').defaultTo(knex.fn.now());",
+			"})"
+		]
+	},
+
+	"Knex Drop Table" : {
+		"scope": "javascript",
+		"prefix" : ["knex-drop-table","drop-table"],
+		"body": [
+			"await knex.schema.dropTableIfExists('${userAddress}');"
+		]
+	},
+
+	"Knexfile for Postgres" : {
+		"scope": "javascript",
+		"prefix": ["knexfile-pg","postgres-knexfile"],
+		"body": [
+			"module.exports = {\n",
+			
+			  "development: {",
+				"\tclient: 'pg',",
+				"\tuseNullAsDefault: true,",
+				"\tmigrations: {",
+				  "\t\tdirectory: './src/migrations'",
+				"\t},",
+				"\tseeds: {",
+				  "\t\tdirectory: './src/seeds'",
+				"\t},",
+				"\tconnection: {",
+				  "\t\thost: 'localhost',",
+				  "\t\tuser: 'postgres',",
+				  "\t\t// password: 'root',",
+				  "\t\tpassword : 'postgres',",
+				  "\t\tdatabase: 'TiffinWala'  // Create Database with same name on your local machine in postgres.",
+				"\t}",
+			  "},\n",
+			  "staging: {",
+				"\tclient: 'postgresql',",
+				"\tconnection: {",
+				  "\t\tdatabase: 'my_db',",
+				  "\t\tuser:     'username',",
+				  "\t\tpassword: 'password',",
+				"\t},",
+				"\tpool: {",
+				  "\t\tmin: 2,",
+				  "\t\tmax: 10",
+				"\t},",
+				"\tmigrations: {",
+				  "\t\ttableName: 'knex_migrations'",
+				"\t}",
+			  "},\n",
+			
+			  "production: {",
+				"\tclient: 'pg',",
+				"\tconnection: process.env.DATABASE_URL + `?ssl=true`,",
+				"\tmigrations: {",
+				  "\t\tdirectory: './src/migrations'",
+				"\t},",
+				"\tuseNullAsDefault: true",
+			  "}",
+			"};"
+		]
+	},
+
+	"Knexfile for Mysql" : {
+		"scope": "javascript",
+		"prefix": ["knexfile-mysql","mysql"],
+		"body": [
+			"module.exports = {\n",
+			
+			  "development: {",
+				"\tclient: 'mysql',",
+				"\tuseNullAsDefault: true,",
+				"\tmigrations: {",
+				  "\t\tdirectory: './src/migrations'",
+				"\t},",
+				"\tseeds: {",
+				  "\t\tdirectory: './src/seeds'",
+				"\t},",
+				"\tconnection: {",
+				  "\t\thost: 'localhost',",
+				  "\t\tuser: 'postgres',",
+				  "\t\t// password: 'root',",
+				  "\t\tpassword : 'postgres',",
+				  "\t\tdatabase: 'TiffinWala'  // Create Database with same name on your local machine in postgres.",
+				"\t}",
+			  "},\n",
+			  "staging: {",
+				"\tclient: 'mysql',",
+				"\tconnection: {",
+				  "\t\tdatabase: 'my_db',",
+				  "\t\tuser:     'username',",
+				  "\t\tpassword: 'password',",
+				"\t},",
+				"\tpool: {",
+				  "\t\tmin: 2,",
+				  "\t\tmax: 10",
+				"\t},",
+				"\tmigrations: {",
+				  "\t\ttableName: 'knex_migrations'",
+				"\t}",
+			  "},\n",
+			
+			  "production: {",
+				"\tclient: 'mysql',",
+				"\tconnection: process.env.DATABASE_URL + `?ssl=true`,",
+				"\tmigrations: {",
+				  "\t\tdirectory: './src/migrations'",
+				"\t},",
+				"\tuseNullAsDefault: true",
+			  "}",
+			"};"
+		]
+	},
+
+	"Knexfile for Sqlite" : {
+		"scope": "javascript",
+		"prefix": ["knexfile-sqlite","sqlite-knexfile"],
+		"body": [
+			"module.exports = {\n",
+			
+			  "development: {",
+				"\tclient: 'pg',",
+				"\tuseNullAsDefault: true,",
+				"\tmigrations: {",
+				  "\t\tdirectory: './src/migrations'",
+				"\t},",
+				"\tseeds: {",
+				  "\t\tdirectory: './src/seeds'",
+				"\t},",
+				"\tconnection: {",
+				  "\t\tfilename: './mydb.sqlite'",
+				"\t}",
+			  "},\n",
+			  "staging: {",
+				"\tclient: 'postgresql',",
+				"\tconnection: {",
+				  "\t\tfilename: './mydb.sqlite'",
+				"\t},",
+				"\tpool: {",
+				  "\t\tmin: 2,",
+				  "\t\tmax: 10",
+				"\t},",
+				"\tmigrations: {",
+				  "\t\ttableName: 'knex_migrations'",
+				"\t}",
+			  "},\n",
+			
+			  "production: {",
+				"\tclient: 'pg',",
+				"\tconnection: process.env.DATABASE_URL + `?ssl=true`,",
+				"\tmigrations: {",
+				  "\t\tdirectory: './src/migrations'",
+				"\t},",
+				"\tuseNullAsDefault: true",
+			  "}",
+			"};"
+		]
+	},
+
+	"Routes in Express" : {
+		"scope": "javascript",
+		"prefix": ["routes","express-routes"],
+		"body": [
+			"const UserAuthController = require('./../../controllers/index').UserAuthController;\n",
+			"//Require Controller in route file\n",
+			"const express = require('express');",
+			"const router = express.Router();\n",
+			"router.post('${1:/login}',UserAuthController.Login);",
+			"router.post('${2:/signup}',UserAuthController.SignUp);\n",
+			"module.exports = router;"
+		]
+	},
+
+	"Controller" : {
+		"scope": "javascript",
+		"prefix": ["controller"],
+		"body": [
+			"const ${1:SignUp} = async(req,res)=>{",
+				"\tconsole.log('SignUp');",
+			"}\n\n",
+			
+			
+			"module.exports = {",
+				"\t\t${1:SignUp}",
+			"}"
+		]
+	},
+	"Controller Function" : {
+		"scope": "javascript",
+		"prefix": ["controller-function","confun"],
+		"body": [
+			"const ${1:SignUp} = async(req,res)=>{",
+				"\tconsole.log('SignUp');",
+			"}\n\n",
+		]
+	}
+}

@@ -1,0 +1,21 @@
+{
+    "name": "objection-snippet",
+    "displayName": "objection-knex-snippet",
+    "description": "Snippet for Objection ORM and Knex QueryBuilder",
+    "publisher": "Objection-Knex",
+    "version": "0.0.1",
+    "engines": {
+        "vscode": "^1.8.0"
+    },
+    "categories": [
+        "Snippets"
+    ],
+    "contributes": {
+        "snippets": [
+            {
+                "language": "javascript",
+                "path": "./snippets/snippets.code-snippets"
+            }
+        ]
+    }
+}
