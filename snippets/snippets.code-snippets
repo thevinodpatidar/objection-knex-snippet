@@ -234,7 +234,7 @@
 				"\tconsole.log('SignUp');",
 			"}\n\n",
 			
-			
+
 			"module.exports = {",
 				"\t\t${1:SignUp}",
 			"}"
